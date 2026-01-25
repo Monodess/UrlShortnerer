@@ -15,34 +15,47 @@ namespace AspUrlShortnerer.Services
         public DAL() {
            
         }
+
       public ConnectionData connectionData {  get; set; }
         public List<ShortenUrl> ShortenUrls { get; set; }
         
         //checks state
-        public ConnectionState Connect()
+        public ConnectionState? Connect()
         {
-            using var connection = new MySqlConnection(connectionData.baseConnect);
-            connection.Open();
-            return connection.State;
+            try
+            {
+                using var connection = new MySqlConnection(connectionData.baseConnect);
+                connection.Open();
+                return connection.State;
+            }
+            catch
+            {
+                Console.WriteLine("Connection failed");
+                return; 
+            }
         }
 
-        public List<ShortenUrl> Access()
+        //selects everything from the only table "UrlShortener"
+        public bool Access()
         {
+            //using closes itself
             using var connection = new MySqlConnection(connectionData.baseConnect);
             connection.Open();
-           
-            
+
+
             MySqlCommand command = new MySqlCommand(connectionData.dataAccess, connection);
             using MySqlDataReader reader = command.ExecuteReader();
 
-            List<ShortenUrl> urls = new List<ShortenUrl>();  
-            while(reader.Read())
+            List<ShortenUrl> urls = new List<ShortenUrl>();
+            while (reader.Read())
             {
-                ShortenUrl url = new ShortenUrl(reader.GetGuid("id"), reader.GetString("shortUrl"), reader.GetString("code"), reader.GetString("longUrl"), reader.GetDateTime("createdOnUtc")); 
-                urls.Add(url); 
+                ShortenUrl url = new ShortenUrl(reader.GetGuid("id"), reader.GetString("shortUrl"), reader.GetString("code"), reader.GetString("longUrl"), reader.GetDateTime("createdOnUtc"));
+                urls.Add(url);
             }
-
-            command.ExecuteNonQuery();
+            ShortenUrls = urls;
+            return true;
+            
+        }
 
            
             

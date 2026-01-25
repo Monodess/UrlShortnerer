@@ -1,5 +1,6 @@
 ﻿namespace AspUrlShortnerer.Domain.entities
 {
+    
     public class Url
     {
         public Uri? _url { get; set; }
@@ -12,6 +13,7 @@
     }
     public class ShortenUrl
     {
+        public ShortenUrl() { }
         public ShortenUrl(Guid id, string shortUrl, string longUrl, string code, DateTime createdOnUtc)
         {
             Id = id;

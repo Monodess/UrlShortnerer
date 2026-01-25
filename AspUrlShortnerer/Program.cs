@@ -1,5 +1,6 @@
 
 using AspUrlShortnerer.Domain.entities;
+using AspUrlShortnerer.Services;
 using System.Data.SqlTypes;
 using System.Threading.Tasks;
 
@@ -26,13 +27,21 @@ namespace AspUrlShortnerer
                     //validating url 
                     var request = new HttpRequestMessage(HttpMethod.Head, url._url); 
                     var responce = await client.SendAsync(request);
-                    Console.WriteLine(responce.StatusCode); 
-                    
-                   
+                    Console.WriteLine(responce.StatusCode);     
+
+                    //trying to connect 
+                    DAL dAL = new DAL();
+                    Console.WriteLine(dAL.Connect()); 
+
+                    //get data 
+                    dAL.Connect();
+                    Console.WriteLine(dAL.ShortenUrls);  
                     
 
                 }
-                catch { }
+                catch {
+                    Console.WriteLine("Something went wrong");   
+                }
 
             }
 
