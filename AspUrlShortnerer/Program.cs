@@ -28,7 +28,7 @@ namespace AspUrlShortnerer
                     var responce = await client.SendAsync(request);
                     Console.WriteLine(responce.StatusCode); 
                     
-                    //mapping our 
+                   
                     
 
                 }
