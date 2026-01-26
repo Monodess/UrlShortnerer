@@ -5,33 +5,41 @@ namespace AspUrlShortnerer.Services
 {
    public  class ConnectionData
     {
-        public string baseConnect = "Server=localhost;Port=3306;Database=practice_platform;Uid=root;Pwd=savepass;SslMode=None;";
+        public string baseConnect = "Server=localhost;Port=3306;Database=practice_platform;Uid=root;Pwd=savepass;SslMode=Disabled;";
         public string dataAccess = "Select * from UrlShortener";
+        public string dataAccessTest = "Select * from user";
         
     }
 
     public class DAL
     {
         public DAL() {
-           
+            connectionData = new ConnectionData(); 
+        }
+        public DAL(string connectionString)
+        {
+            Console.WriteLine(connectionData.baseConnect == null); 
+            connectionData.baseConnect = connectionString ?? throw new ArgumentNullException(nameof(connectionString)); 
         }
 
-      public ConnectionData connectionData {  get; set; }
-        public List<ShortenUrl> ShortenUrls { get; set; }
+      public ConnectionData connectionData {  get; set; } = new ConnectionData();
+        public List<ShortenUrl> ShortenUrls { get; set; } = new List<ShortenUrl>(); 
+        private MySqlConnection _connection; 
         
         //checks state
-        public ConnectionState? Connect()
+        public bool Connect()
         {
             try
             {
-                using var connection = new MySqlConnection(connectionData.baseConnect);
-                connection.Open();
-                return connection.State;
+                Console.WriteLine(connectionData.baseConnect == null);
+                _connection = new MySqlConnection(connectionData.baseConnect);
+                _connection.Open();
+                return true; 
             }
-            catch
+            catch (MySqlException e)
             {
-                Console.WriteLine("Connection failed");
-                return; 
+                Console.WriteLine("Connection failed: {}", e.Message);
+                return false;  
             }
         }
 
@@ -43,7 +51,7 @@ namespace AspUrlShortnerer.Services
             connection.Open();
 
 
-            MySqlCommand command = new MySqlCommand(connectionData.dataAccess, connection);
+            MySqlCommand command = new MySqlCommand(connectionData.dataAccessTest, connection);
             using MySqlDataReader reader = command.ExecuteReader();
 
             List<ShortenUrl> urls = new List<ShortenUrl>();

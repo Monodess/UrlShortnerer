@@ -3,15 +3,19 @@ using AspUrlShortnerer.Domain.entities;
 using AspUrlShortnerer.Services;
 using System.Data.SqlTypes;
 using System.Threading.Tasks;
-
+using Microsoft.EntityFrameworkCore.Design; 
 namespace AspUrlShortnerer
 {
     public class Program
     {
         public static async Task Main(string[] args)
         {
+            
+            DAL dal = new DAL("Server=localhost;Port=3306;Database=practice_platform;Uid=root;Pwd=savepass;SslMode=Disabled;");
+            Console.WriteLine(dal.Connect());
             while (true)
             {
+
                 try
                 {
                     //input and creating Url obj
@@ -30,12 +34,11 @@ namespace AspUrlShortnerer
                     Console.WriteLine(responce.StatusCode);     
 
                     //trying to connect 
-                    DAL dAL = new DAL();
-                    Console.WriteLine(dAL.Connect()); 
+                    
 
                     //get data 
-                    dAL.Connect();
-                    Console.WriteLine(dAL.ShortenUrls);  
+                    dal.Access();
+                    Console.WriteLine(dal.ShortenUrls);  
                     
 
                 }
