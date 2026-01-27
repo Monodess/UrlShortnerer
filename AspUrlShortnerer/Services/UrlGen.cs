@@ -6,11 +6,11 @@ namespace AspUrlShortnerer.Services
     {
         public string domain = "localhost:3306";
 
-        public string GenerateUniqueCode() {
+        //public string GenerateUniqueCode() {
             
-        }
-       public string GenerateShortUrl(Uri url) {
-            string ShortUrl = 
-        }  
+        //}
+       //public string GenerateShortUrl(Uri url) {
+       //     string ShortUrl = 
+       // }  
     }
 }
