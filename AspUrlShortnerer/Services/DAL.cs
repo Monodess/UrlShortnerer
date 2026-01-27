@@ -8,7 +8,7 @@ namespace AspUrlShortnerer.Services
         public string baseConnect = "Server=localhost;Port=3306;Database=practice_platform;Uid=root;Pwd=savepass;SslMode=Disabled;";
         public string dataAccess = "Select * from UrlShortener";
         public string dataAccessTest = "Select * from user";
-        
+      
     }
 
     public class DAL
@@ -57,7 +57,7 @@ namespace AspUrlShortnerer.Services
             List<ShortenUrl> urls = new List<ShortenUrl>();
             while (reader.Read())
             {
-                ShortenUrl url = new ShortenUrl(reader.GetGuid("id"), reader.GetString("shortUrl"), reader.GetString("code"), reader.GetString("longUrl"), reader.GetDateTime("createdOnUtc"));
+                ShortenUrl url = new ShortenUrl(reader.GetInt32("id"), reader.GetString("shortUrl"), reader.GetString("code"), reader.GetString("longUrl"), reader.GetDateTime("createdOnUtc"));
                 urls.Add(url);
             }
             ShortenUrls = urls;

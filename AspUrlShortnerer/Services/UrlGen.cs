@@ -2,12 +2,15 @@
 using System.Net;
 namespace AspUrlShortnerer.Services
 {
-    static public class UrlGen
+     public class UrlGen
     {
-        static public ShortenUrl GenerateShortUrl(Uri url) {
-            var arr = url.Segments;
-            Console.WriteLine(string.Join(",", arr));
-            return new ShortenUrl(); 
+        public string domain = "localhost:3306";
+
+        public string GenerateUniqueCode() {
+            
+        }
+       public string GenerateShortUrl(Uri url) {
+            string ShortUrl = 
         }  
     }
 }
