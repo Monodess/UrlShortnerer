@@ -1,8 +1,8 @@
 namespace AspUrlShortnerer.Domain.Services
 {
-   static public class UserInputService
+  public class UserInputService
     {
-       static public string? InputUrl()
+        public string? InputUrl()
         {
             return Console.ReadLine();
         }

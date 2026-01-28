@@ -5,7 +5,7 @@ namespace AspUrlShortnerer.Application
 {
     public class ResponceApplication
     {
-        public static string SendResponce(ShortenUrl url)
+        public string SendResponce(ShortenUrl url)
         {
             if (DAL.DoesCodeExist(url.Code))
             {

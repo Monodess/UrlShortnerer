@@ -14,7 +14,7 @@ namespace AspUrlShortnerer.Application
 
         
 
-        static public ShortenUrl CreateShortenUrl()
+        public ShortenUrl CreateShortenUrl()
         {
             
             //getting users link
@@ -26,9 +26,10 @@ namespace AspUrlShortnerer.Application
         }
 
         //getting users link
-        private static string GetOrigLink()
+        private string GetOrigLink()
         {
-            var inUrl = UserInputService.InputUrl();
+            UserInputService request = new UserInputService(); 
+            var inUrl = request.InputUrl();
             ValidatorService.IsUrlValid(inUrl);
             return inUrl;
         }

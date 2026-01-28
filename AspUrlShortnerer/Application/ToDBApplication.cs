@@ -5,7 +5,7 @@ namespace AspUrlShortnerer.Application
 {
     public class ToDBApplication
     {
-        public static bool InsertShortenUrl(ShortenUrl url)
+        public bool InsertShortenUrl(ShortenUrl url)
         {
             return DAL.InsertField(url); 
         }
