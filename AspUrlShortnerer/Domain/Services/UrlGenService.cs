@@ -1,12 +1,13 @@
-﻿using AspUrlShortnerer.Domain.entities; 
+﻿using AspUrlShortnerer.Domain.entities;
+using AspUrlShortnerer.Services;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
-namespace AspUrlShortnerer.Services
+namespace AspUrlShortnerer.Domain.Services
 {
-     public class UrlGen
+     public class UrlGenService
     {
-        public UrlGen(string origUrl)
+        public UrlGenService(string origUrl)
         {
             _origUrl = origUrl; 
         }
@@ -27,7 +28,7 @@ namespace AspUrlShortnerer.Services
 
                 for (int i = 0; i < bytes.Length; i++)
                 {
-                    sb.Append(alphabet[bytes[i]] % alphabet.Length);
+                    sb.Append(alphabet[bytes[i] % alphabet.Length]);
                 }
                 if (!DAL.DoesCodeExist(sb.ToString()))
                  return sb.ToString();

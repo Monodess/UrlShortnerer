@@ -1,6 +1,6 @@
-﻿namespace AspUrlShortnerer.Services
+﻿namespace AspUrlShortnerer.Domain.Services
 {
-    static public class Validator
+    static public class ValidatorService
     {
         static public async Task<bool> IsUrlValid(string url)
         {

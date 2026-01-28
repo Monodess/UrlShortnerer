@@ -1,6 +1,6 @@
-namespace AspUrlShortnerer.Services
+namespace AspUrlShortnerer.Domain.Services
 {
-   static public class UserInput
+   static public class UserInputService
     {
        static public string? InputUrl()
         {

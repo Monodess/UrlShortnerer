@@ -1,38 +1,41 @@
 ﻿using AspUrlShortnerer.Domain.entities;
-namespace AspUrlShortnerer.Services
+using AspUrlShortnerer.Domain.Services;
+using AspUrlShortnerer.Services;
+namespace AspUrlShortnerer.Application
 
 {
-    public class Application
+    //This layer is made for use-cases
+    //
+    public class InApplication
     {
-        Application()
+        InApplication()
         {  
         }
 
+        
 
-        public ShortenUrl CreateShortenUrl()
+        static public ShortenUrl CreateShortenUrl()
         {
             
             //getting users link
-            string inUrl;
-            GetOrigLink(out inUrl);
+            var inUrl = GetOrigLink();
             string code, shortUrl;
             GenShortUrl(inUrl, out code, out shortUrl);
 
             return (new ShortenUrl(shortUrl, inUrl, code, DateTime.UtcNow));
         }
 
-
         //getting users link
-        private static string GetOrigLink(out string inUrl)
+        private static string GetOrigLink()
         {
-            inUrl = UserInput.InputUrl();
-            Validator.IsUrlValid(inUrl);
+            var inUrl = UserInputService.InputUrl();
+            ValidatorService.IsUrlValid(inUrl);
             return inUrl;
         }
         //generating random unique code
         private static void GenShortUrl(string inUrl, out string code, out string shortUrl)
         {
-            UrlGen generator = new UrlGen(inUrl);
+            UrlGenService generator = new UrlGenService(inUrl);
             code = generator.GenerateUniqueCode();
             shortUrl = generator.GenerateShortUrl(code);
         }

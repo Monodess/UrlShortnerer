@@ -3,19 +3,14 @@ using MySql.Data.MySqlClient;
 using System.Data;
 namespace AspUrlShortnerer.Services
 {
-    //1) create database
-    //2) make vars in request
-    //3) seletct id and tund it into base62; 
-    //4)
-   
-
+  
     public partial class DAL
     {
-        static public class ConnectionData
+        static public partial class ConnectionData
         {
             public static string domain = "https://localhost:5020";
             public static HashSet<string> columnsNames = new HashSet<string> { "Id", "ShortUrl", "LongUrl", "Code", "CreatedOnUtc" };
-            public static string baseConnect = "Server=localhost;Port=3306;Database=practice_platform;Uid=root;Pwd=savepass;SslMode=Disabled;";
+            public static string baseConnect = "Server=localhost;Port=3306;Database=practice_platform;Uid=root;Pwd=savepass;SslMode=Disabled;AllowPublicKeyRetrieval=True;";
             public static string dataAccessGetField = "Select * from shortenurls where Id = @x;";
             public static string dataAccessGetCode = "Select 1 from shortenurls where Code = @x LIMIT 1;";
             public static string dataAccessSelectEverything = "Select * from shortenurls;";
@@ -73,16 +68,17 @@ namespace AspUrlShortnerer.Services
        
         
 
-        public ShortenUrl GetField(int id)
+        public static ShortenUrl GetField(int id)
         {
             //using closes itself
             using var connection = new MySqlConnection(ConnectionData.baseConnect);
             connection.Open();
 
             MySqlCommand command = new MySqlCommand(ConnectionData.dataAccessGetField, connection);
-            command.Parameters.AddWithValue("x", id); 
+            command.Parameters.AddWithValue("@x", id); 
             using MySqlDataReader reader = command.ExecuteReader();
             ShortenUrl url = new ShortenUrl(); 
+            
             if(reader.Read())
             {
                 return url = new ShortenUrl(reader.GetInt32("Id"), reader.GetString("ShortUrl"), reader.GetString("Code"), reader.GetString("LongUrl"), reader.GetDateTime("CreatedOnUtc"));
@@ -92,6 +88,8 @@ namespace AspUrlShortnerer.Services
             
             
         }
+        //TODO: create transaction, resshape db into varchars rather than long text ; 
+
 
         static public bool DoesCodeExist(string code)
         {
@@ -100,8 +98,8 @@ namespace AspUrlShortnerer.Services
             using var connection = new MySqlConnection(ConnectionData.baseConnect);
             connection.Open();
 
-            MySqlCommand command = new MySqlCommand(ConnectionData.dataAccessGetField, connection);
-            command.Parameters.AddWithValue("x", code);
+            MySqlCommand command = new MySqlCommand(ConnectionData.dataAccessGetCode, connection);
+            command.Parameters.Add("@x", MySqlDbType.VarChar).Value = code.Trim();
             using MySqlDataReader reader = command.ExecuteReader();
             if (reader.Read())
             {

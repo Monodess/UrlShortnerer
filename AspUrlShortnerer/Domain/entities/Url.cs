@@ -13,8 +13,13 @@ namespace AspUrlShortnerer.Domain.entities
         {
             modelBuilder.Entity<ShortenUrl>()
                 .Property(x => x.Id)
-                
                 .ValueGeneratedOnAdd();
+            modelBuilder.Entity<ShortenUrl>()
+                .Property(y => y.Code)
+                .HasColumnType("VARCHAR(6)");
+            modelBuilder.Entity<ShortenUrl>()
+                .Property(s => s.ShortUrl)
+                .HasColumnType("VARCHAR(29)"); //https://localhost:5020/unique 
         }
     }
     public class AppDbContextFactory() : IDesignTimeDbContextFactory<AppDbContext>
@@ -31,17 +36,7 @@ namespace AspUrlShortnerer.Domain.entities
        
 
     }
-    public class Url
-    {
-        
-        public Uri? _url { get; set; }
-
-        public Url() { }
-        public Url(Uri? url)
-        {
-            _url = url;
-        }
-    }
+    
     public class ShortenUrl
     {
         public ShortenUrl() { }
