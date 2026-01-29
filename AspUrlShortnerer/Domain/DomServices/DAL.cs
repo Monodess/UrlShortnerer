@@ -11,8 +11,8 @@ namespace AspUrlShortnerer.Services
             public static string domain = "https://localhost:5020";
             public static HashSet<string> columnsNames = new HashSet<string> { "Id", "ShortUrl", "LongUrl", "Code", "CreatedOnUtc" };
             public static string baseConnect = "Server=localhost;Port=3306;Database=practice_platform;Uid=root;Pwd=savepass;SslMode=Disabled;AllowPublicKeyRetrieval=True;";
-            public static string dataAccessGetField = "Select * from shortenurls where Id = @x;";
-            public static string dataAccessGetCode = "Select 1 from shortenurls where Code = @x LIMIT 1;";
+            public static string dataAccessGetById = "Select * from shortenurls where Id = @x LIMIT 1;";
+            public static string dataAccessGetByCode = "Select 1 from shortenurls where Code = @x LIMIT 1;";
             public static string dataAccessSelectEverything = "Select * from shortenurls;";
         }
         public List<ShortenUrl> ShortenUrls { get; set; } = new List<ShortenUrl>();
@@ -65,17 +65,19 @@ namespace AspUrlShortnerer.Services
 
             return result;
         }
-       
-        
 
-        public static ShortenUrl GetField(int id)
+
+        public static ShortenUrl GetByCode(string code) => GetField(ConnectionData.dataAccessGetByCode, code);
+        public static ShortenUrl GetById(int id) => GetField(ConnectionData.dataAccessGetById, id);
+       
+        public static ShortenUrl GetField(string sql, object value)
         {
             //using closes itself
             using var connection = new MySqlConnection(ConnectionData.baseConnect);
             connection.Open();
 
-            MySqlCommand command = new MySqlCommand(ConnectionData.dataAccessGetField, connection);
-            command.Parameters.AddWithValue("@x", id); 
+            MySqlCommand command = new MySqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@x", value); 
             using MySqlDataReader reader = command.ExecuteReader();
             ShortenUrl url = new ShortenUrl(); 
             
@@ -98,7 +100,7 @@ namespace AspUrlShortnerer.Services
             using var connection = new MySqlConnection(ConnectionData.baseConnect);
             connection.Open();
 
-            MySqlCommand command = new MySqlCommand(ConnectionData.dataAccessGetCode, connection);
+            MySqlCommand command = new MySqlCommand(ConnectionData.dataAccessGetByCode, connection);
             command.Parameters.Add("@x", MySqlDbType.VarChar).Value = code.Trim();
             using MySqlDataReader reader = command.ExecuteReader();
             if (reader.Read())

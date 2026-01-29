@@ -5,7 +5,11 @@ namespace AspUrlShortnerer.Application
 {
     public class ResponceApplication
     {
-        public string SendResponce(ShortenUrl url)
+        public ResponceApplication()
+        {
+        }
+
+        public string SendCode(ShortenUrl url)
         {
             if (DAL.DoesCodeExist(url.Code))
             {
@@ -14,6 +18,9 @@ namespace AspUrlShortnerer.Application
             else return null; 
         }
 
-        
+        public string Redir(string code)
+        {
+           return DBcontextApplication.GetOrigLink(code);
+        }
     }
 }

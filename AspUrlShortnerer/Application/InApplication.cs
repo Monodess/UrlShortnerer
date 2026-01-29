@@ -8,7 +8,7 @@ namespace AspUrlShortnerer.Application
     //
     public class InApplication
     {
-        InApplication()
+        public InApplication()
         {  
         }
 

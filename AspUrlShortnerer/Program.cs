@@ -13,20 +13,8 @@ namespace AspUrlShortnerer
     {
         public static async Task Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddControllers();
-            builder.Services.AddOpenApi();
-
-            WebApplication app = builder.Build(); 
-            if(app.Environment.IsDevelopment())
-            {
-                app.MapOpenApi(); 
-            }
-
-            app.UseHttpsRedirection();
-            app.UseAuthorization();
-            app.MapControllers();
-            app.Run(); 
+            AppBuilder builder = new AppBuilder();
+            builder.Build(); 
             
         }   
     }
