@@ -15,7 +15,7 @@ namespace AspUrlShortnerer.Application
         }
         public static string GetOrigLink(string code)
         {
-            return (DAL.GetByCode(code).LongUrl);
+            return (DAL.GetByCode(code.Trim()).LongUrl.Trim());
         }
     }
 }

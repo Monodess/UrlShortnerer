@@ -1,5 +1,6 @@
 ﻿using AspUrlShortnerer.Domain.entities;
 using AspUrlShortnerer.Services;
+using System.Security.Policy;
 
 namespace AspUrlShortnerer.Application
 {
@@ -20,7 +21,26 @@ namespace AspUrlShortnerer.Application
 
         public string Redir(string code)
         {
-           return DBcontextApplication.GetOrigLink(code);
+            //5jkZEc
+            if (DAL.DoesCodeExist(code))
+            {
+                string target = DBcontextApplication.GetOrigLink(code);
+
+                if (string.IsNullOrWhiteSpace(target)) return null;
+
+                target = target.Trim();
+
+                // If it's missing 'http', the browser thinks 'google.com' is a local file
+                // or that 'm3maaw' is a global domain name.
+                if (!target.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                {
+                    target = "https://" + target;
+                }
+
+                Console.WriteLine($"Corrected Redirect: {target}");
+                return target;
+            }
+            return null;
         }
     }
 }

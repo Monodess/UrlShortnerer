@@ -1,4 +1,5 @@
-﻿using AspUrlShortnerer.Domain.entities;
+﻿using AspUrlShortnerer.ConsoleView;
+using AspUrlShortnerer.Domain.entities;
 using AspUrlShortnerer.Domain.Services;
 using AspUrlShortnerer.Services;
 namespace AspUrlShortnerer.Application
@@ -26,7 +27,7 @@ namespace AspUrlShortnerer.Application
         }
 
         //getting users link
-        private string GetOrigLink()
+        public string GetOrigLink()
         {
             UserInputService request = new UserInputService(); 
             var inUrl = request.InputUrl();
@@ -34,7 +35,7 @@ namespace AspUrlShortnerer.Application
             return inUrl;
         }
         //generating random unique code
-        private static void GenShortUrl(string inUrl, out string code, out string shortUrl)
+       public void GenShortUrl(string inUrl, out string code, out string shortUrl)
         {
             UrlGenService generator = new UrlGenService(inUrl);
             code = generator.GenerateUniqueCode();

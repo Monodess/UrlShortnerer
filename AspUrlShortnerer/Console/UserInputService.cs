@@ -1,4 +1,4 @@
-namespace AspUrlShortnerer.Domain.Services
+namespace AspUrlShortnerer.ConsoleView
 {
   public class UserInputService
     {

@@ -12,6 +12,7 @@ namespace AspUrlShortnerer.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.Sql("TRUNCATE TABLE shortenurls;");
             migrationBuilder.AlterDatabase()
                 .Annotation("MySql:CharSet", "utf8mb4");
 

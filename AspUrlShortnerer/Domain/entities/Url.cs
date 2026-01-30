@@ -20,6 +20,9 @@ namespace AspUrlShortnerer.Domain.entities
             modelBuilder.Entity<ShortenUrl>()
                 .Property(s => s.ShortUrl)
                 .HasColumnType("VARCHAR(29)"); //https://localhost:5020/unique 
+            modelBuilder.Entity<ShortenUrl>()
+                .Property(l => l.LongUrl)
+                .HasColumnType("VARCHAR(2048)");
         }
     }
     public class AppDbContextFactory() : IDesignTimeDbContextFactory<AppDbContext>
@@ -57,6 +60,7 @@ namespace AspUrlShortnerer.Domain.entities
             Code = code;
             CreatedOnUtc = createdOnUtc;
         }
+        
         public int Id { get; set; }    
         public string ShortUrl { get; set; }
         public string LongUrl { get; set; }

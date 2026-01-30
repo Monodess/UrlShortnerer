@@ -12,7 +12,7 @@ namespace AspUrlShortnerer.Services
             public static HashSet<string> columnsNames = new HashSet<string> { "Id", "ShortUrl", "LongUrl", "Code", "CreatedOnUtc" };
             public static string baseConnect = "Server=localhost;Port=3306;Database=practice_platform;Uid=root;Pwd=savepass;SslMode=Disabled;AllowPublicKeyRetrieval=True;";
             public static string dataAccessGetById = "Select * from shortenurls where Id = @x LIMIT 1;";
-            public static string dataAccessGetByCode = "Select 1 from shortenurls where Code = @x LIMIT 1;";
+            public static string dataAccessGetByCode = "Select * from shortenurls where Code = @x LIMIT 1;";
             public static string dataAccessSelectEverything = "Select * from shortenurls;";
         }
         public List<ShortenUrl> ShortenUrls { get; set; } = new List<ShortenUrl>();
@@ -83,7 +83,7 @@ namespace AspUrlShortnerer.Services
             
             if(reader.Read())
             {
-                return url = new ShortenUrl(reader.GetInt32("Id"), reader.GetString("ShortUrl"), reader.GetString("Code"), reader.GetString("LongUrl"), reader.GetDateTime("CreatedOnUtc"));
+                return url = new ShortenUrl(reader.GetInt32("Id"), reader.GetString("ShortUrl"), reader.GetString("LongUrl"), reader.GetString("Code"), reader.GetDateTime("CreatedOnUtc"));
          
             }
             return null; 
