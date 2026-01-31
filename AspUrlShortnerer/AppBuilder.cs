@@ -37,6 +37,12 @@ namespace AspUrlShortnerer
             builder.Services.AddScoped<DBcontextApplication>();
             builder.Services.AddScoped<ResponceApplication>();
            
+            builder.Services.AddCors(options => { options
+                .AddDefaultPolicy(policy => { policy
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod(); }); });
+
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -51,11 +57,7 @@ namespace AspUrlShortnerer
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["UserLogin:Key"]))
                     }; 
                 }); 
-            builder.Services.AddCors(options => { options
-                .AddDefaultPolicy(policy => { policy
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod(); }); });
+
             app = builder.Build();
             app.UseCors(); 
 
@@ -68,27 +70,24 @@ namespace AspUrlShortnerer
                 app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1"); });
             }
 
-
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
 
-
             app.MapControllers();
-
-
 
             //The factory (creation)
             //These methods are used by api user 
             //if i want to send something on a server i use post 
 
-            //
+            //ngrok config
             app.Use(async (context, next) =>
             {
                 context.Response.Headers.Add("ngrok-skip-browser-warning", "true");
                 await next(); 
             });
 
+            //autorization
             app.MapPost("/logic", async (UserLogin user, JwtService jwtservice) =>
             {
                 if (user.Name == "admin" && user.Password == "savepass")
@@ -100,6 +99,7 @@ namespace AspUrlShortnerer
                 return Results.Unauthorized();
             }
             ).AllowAnonymous(); 
+
             app.MapPost("/shorten", async (ShortenUrlRequest input, InApplication request, DBcontextApplication DBcontext, ResponceApplication responce) =>
             {
                 //Get users link and create unique url for it
