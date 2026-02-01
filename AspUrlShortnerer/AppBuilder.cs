@@ -19,8 +19,6 @@ namespace AspUrlShortnerer
 
         public void Build()
         {
-            //TODO: add ui for seeing api
-            //      add swager for user input 
             //      note: by adding services into the builder we performed dependency injection (DI) 
             //      AddOpenAPI creates a way for developers to interact with out service 
             //      MapAPI scans code? 
@@ -29,14 +27,16 @@ namespace AspUrlShortnerer
             // Add services to the container.
 
             builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            // My services
+            builder.Services.AddScoped<RegistrationApplcation>(); 
             builder.Services.AddScoped<JwtService>(); 
             builder.Services.AddScoped<InApplication>();
             builder.Services.AddScoped<DBcontextApplication>();
             builder.Services.AddScoped<ResponceApplication>();
-           
+
             builder.Services.AddCors(options => { options
                 .AddDefaultPolicy(policy => { policy
                     .AllowAnyOrigin()
@@ -59,7 +59,6 @@ namespace AspUrlShortnerer
                 }); 
 
             app = builder.Build();
-            app.UseCors(); 
 
 
             // Configure the HTTP request pipeline.
@@ -70,6 +69,7 @@ namespace AspUrlShortnerer
                 app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1"); });
             }
 
+            app.UseCors(); 
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
@@ -86,7 +86,14 @@ namespace AspUrlShortnerer
                 context.Response.Headers.Add("ngrok-skip-browser-warning", "true");
                 await next(); 
             });
+            //registration
+            app.MapPost("/registration", async (UserLogin user, RegistrationApplcation registration) =>
+            {
+                if (user.Name != null && user.Name.IsNormalized() && user.Name.Length < 20)
+                {
 
+                } 
+            });
             //autorization
             app.MapPost("/logic", async (UserLogin user, JwtService jwtservice) =>
             {

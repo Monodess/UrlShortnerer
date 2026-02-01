@@ -2,16 +2,11 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-
+using AspUrlShortnerer.Domain.entities; 
 namespace AspUrlShortnerer.Domain.Services
 {
     
-    public class UserLogin
-    {
-        //each field will be a added to jwt claims
-        public string Name { get; set; }
-        public string Password { get; set; }
-    }
+    
     public class JwtService
     {
         //interrface for key values 
