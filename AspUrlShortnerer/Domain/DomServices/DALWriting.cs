@@ -5,9 +5,13 @@ namespace AspUrlShortnerer.Services
 
     public partial class DAL
     {
-        static public partial class ConnectionData {
+        static public partial class ConnectionData
+        {
             public static string insertField = "INSERT INTO shortenurls (ShortUrl, LongUrl, Code, CreatedOnUtc) VALUES (@short, @orig, @code, @date);";
             public static string deleteField = "DELETE FROM shortenurls (ShortUrl, LongUrl, Code, CreatedOnUtc) WHERE Id = @x";
+
+            //user part 
+            public static string insertUserField = "";
         }
         // TODO: complete DB writing logic (inserting and deleting field) 
         public static bool InsertField(ShortenUrl url)

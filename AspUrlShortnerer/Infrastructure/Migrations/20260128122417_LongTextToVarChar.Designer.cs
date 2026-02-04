@@ -5,9 +5,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-
 #nullable disable
-
+using AspUrlShortnerer.Infrastructure; 
 namespace AspUrlShortnerer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
