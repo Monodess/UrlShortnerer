@@ -8,7 +8,7 @@ namespace AspUrlShortnerer.Infrastructure
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public DbSet<ShortenUrl> ShortenUrls => Set<ShortenUrl>();
-        public DbSet<UserLogin> UserLogins => Set<UserLogin>(); 
+        public DbSet<User_ShortenUrls> UserLogins => Set<User_ShortenUrls>(); 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,17 @@ namespace AspUrlShortnerer.Infrastructure
             modelBuilder.Entity<ShortenUrl>()
                 .Property(l => l.LongUrl)
                 .HasColumnType("VARCHAR(2048)");
+
+            modelBuilder.Entity<User_ShortenUrls>()
+                .Property(x => x.Id)
+                .ValueGeneratedOnAdd();
+            modelBuilder.Entity<User_ShortenUrls>()
+                .Property(x => x.Password)
+                .HasColumnType("VARCHAR(40)");
+            modelBuilder.Entity<User_ShortenUrls>()
+                .Property(x => x.Name)
+                .HasColumnType("VARCHAR(20)");
+
         }
     }
 }

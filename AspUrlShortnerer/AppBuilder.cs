@@ -94,7 +94,7 @@ namespace AspUrlShortnerer
                 {
                     if (user.Password != null && user.Password.IsNormalized() && user.Password.Length < 40)
                     {
-                       var NewUser = new User(user.Name, user.Password);
+                       var NewUser = new User_ShortenUrls(user.Name, user.Password);
 
                         return Results.Created(); 
                     }

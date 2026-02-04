@@ -10,7 +10,7 @@ namespace AspUrlShortnerer.Infrastructure
         {
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsetting.json", optional: false)
+                .AddJsonFile("appsettings.json", optional: false)
                 .AddEnvironmentVariables()
                 .Build();
 
