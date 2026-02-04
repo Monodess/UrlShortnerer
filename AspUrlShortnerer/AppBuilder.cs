@@ -86,14 +86,28 @@ namespace AspUrlShortnerer
                 context.Response.Headers.Add("ngrok-skip-browser-warning", "true");
                 await next(); 
             });
+
             //registration
             app.MapPost("/registration", async (UserLogin user, RegistrationApplcation registration) =>
             {
                 if (user.Name != null && user.Name.IsNormalized() && user.Name.Length < 20)
                 {
+                    if (user.Password != null && user.Password.IsNormalized() && user.Password.Length < 40)
+                    {
+                       var NewUser = new User(user.Name, user.Password);
 
-                } 
-            });
+                        return Results.Created(); 
+                    }
+                    var errorsp = new Dictionary<string, string[]> {
+                        {"Password", new[] { "The Password < 40 is required" } }
+                    };
+                    return Results.ValidationProblem(errorsp);
+                }
+                var errors = new Dictionary<string, string[]> {
+                        {"Name", new[] { "The Name < 20 is required" } }
+                    };
+                return Results.ValidationProblem(errors);
+            }).AllowAnonymous();
             //autorization
             app.MapPost("/logic", async (UserLogin user, JwtService jwtservice) =>
             {

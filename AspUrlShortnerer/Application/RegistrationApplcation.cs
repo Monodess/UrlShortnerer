@@ -1,4 +1,5 @@
 ﻿using AspUrlShortnerer.Domain.Services;
+using AspUrlShortnerer.Domain.entities;
 
 namespace AspUrlShortnerer.Application
 {
