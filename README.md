@@ -6,19 +6,19 @@ Project for creating re-reference url and storing it in DB
 - EF .NET (9.0.0)
 - MySQL (8.0.0)
 
-## Requirements:
-- Dotnet CLI or VS 
-- ASP.NET Core 
-- DB with SQL support 
-- Any browser (is it necessary to point out?)
-- Swagger or other Web API explorer 
-## Quick start: 
-- Open in any code editor
-- In appsetting.json change the "ConnectionString" to your DB path
--Run
-## Usage:
-1. After starting app go by link that appeared in the console 
-2. In browser add /swagger to path
-3. POST link you want to shorten
-4. Go by that link
-5. Greetings, you've been redirected!
+## Requirements
+- .NET 9.0 SDK
+- MySQL 8.0+
+- Entity Framework Core Tools (for migrations)
+
+## Quick Start
+1. Clone the repository.
+2. Update `ConnectionString` in `appsettings.json` with your MySQL path.
+3. Run migrations: `dotnet ef database update`
+4. Start the application: `dotnet run`
+
+## Usage
+1. Open the URL provided in the console (e.g., `http://localhost:5000`).
+2. Navigate to `/swagger` to access the interactive API documentation.
+3. Use the **POST** endpoint to submit a long URL.
+4. Copy the shortened identifier and use the **GET** endpoint or browser address bar to redirect.
